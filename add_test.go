@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/omniboost/go-netsuite-soap"
+	"github.com/omniboost/go-24sevenoffice"
 )
 
 func TestAdd(t *testing.T) {

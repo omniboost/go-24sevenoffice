@@ -6,8 +6,8 @@ import (
 	"net/url"
 
 	"github.com/cydev/zero"
-	"github.com/omniboost/go-netsuite-soap/omitempty"
-	"github.com/omniboost/go-netsuite-soap/utils"
+	"github.com/omniboost/go-24sevenoffice/omitempty"
+	"github.com/omniboost/go-24sevenoffice/utils"
 	"github.com/pkg/errors"
 )
 

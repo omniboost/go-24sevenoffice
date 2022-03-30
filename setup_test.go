@@ -4,7 +4,7 @@ import (
 	"os"
 	"testing"
 
-	netsuite "github.com/omniboost/go-netsuite-soap"
+	netsuite "github.com/omniboost/go-24sevenoffice"
 )
 
 var (

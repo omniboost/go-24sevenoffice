@@ -21,7 +21,7 @@ import (
 
 const (
 	libraryVersion = "0.0.1"
-	userAgent      = "go-netsuite-soap/" + libraryVersion
+	userAgent      = "go-24sevenoffice/" + libraryVersion
 	mediaType      = "text/xml"
 	charset        = "utf-8"
 )

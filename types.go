@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/cydev/zero"
-	"github.com/omniboost/go-netsuite-soap/omitempty"
+	"github.com/omniboost/go-24sevenoffice/omitempty"
 )
 
 type RecordRef struct {

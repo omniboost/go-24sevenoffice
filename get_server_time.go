@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/omniboost/go-netsuite-soap/utils"
+	"github.com/omniboost/go-24sevenoffice/utils"
 	"github.com/pkg/errors"
 )
 

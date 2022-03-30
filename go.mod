@@ -1,4 +1,4 @@
-module github.com/omniboost/go-netsuite-soap
+module github.com/omniboost/go-24sevenoffice
 
 go 1.16
 
