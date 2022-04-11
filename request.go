@@ -1,4 +1,4 @@
-package netsuite
+package twentyfour
 
 import "net/url"
 

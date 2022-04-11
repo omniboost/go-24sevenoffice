@@ -1,6 +1,6 @@
 module github.com/omniboost/go-24sevenoffice
 
-go 1.16
+go 1.18
 
 require (
 	github.com/cydev/zero v0.0.0-20160322155811-4a4535dd56e7

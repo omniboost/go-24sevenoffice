@@ -6,9 +6,8 @@ import (
 	"testing"
 )
 
-func TestGetDataCenterURLs(t *testing.T) {
-	req := client.NewGetDataCenterURLsRequest()
-	req.RequestBody().Account = "5325833_SB2"
+func TestGetTypeList(t *testing.T) {
+	req := client.NewGetTypeListRequest()
 	resp, err := req.Do()
 	if err != nil {
 		t.Error(err)

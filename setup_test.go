@@ -1,4 +1,4 @@
-package netsuite_test
+package twentyfour_test
 
 import (
 	"os"
@@ -13,20 +13,17 @@ var (
 
 func TestMain(m *testing.M) {
 	baseURL := os.Getenv("BASE_URL")
-	clientID := os.Getenv("CLIENT_ID")
-	clientSecret := os.Getenv("CLIENT_SECRET")
-	tokenID := os.Getenv("TOKEN_ID")
-	tokenSecret := os.Getenv("TOKEN_SECRET")
-	// applicationID := os.Getenv("APPLICATION_ID")
-	accountID := os.Getenv("ACCOUNT_ID")
+	applicationID := os.Getenv("APPLICATION_ID")
+	identityID := os.Getenv("IDENTITY_ID")
+	username := os.Getenv("USER")
+	password := os.Getenv("PASSWORD")
 	debug := os.Getenv("DEBUG")
 
 	client = netsuite.NewClient(nil)
-	client.SetClientID(clientID)
-	client.SetClientSecret(clientSecret)
-	client.SetTokenID(tokenID)
-	client.SetTokenSecret(tokenSecret)
-	client.SetAccountID(accountID)
+	client.SetApplicationID(applicationID)
+	client.SetIdentityID(identityID)
+	client.SetUsername(username)
+	client.SetPassword(password)
 	if debug != "" {
 		client.SetDebug(true)
 	}
