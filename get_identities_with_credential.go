@@ -117,28 +117,7 @@ type GetIdentitiesWithCredentialRequestResponseBody struct {
 	XMLName xml.Name `xml:"GetIdentitiesWithCredentialResponse"`
 
 	GetIdentitiesWithCredentialResult struct {
-		Identity struct {
-			ID   string `xml:"Id"`
-			User struct {
-				ContactId  string `xml:"ContactId"`
-				ID         string `xml:"Id"`
-				Name       string `xml:"Name"`
-				EmployeeId string `xml:"EmployeeId"`
-			} `xml:"User"`
-			Client struct {
-				ID   string `xml:"Id"`
-				Name string `xml:"Name"`
-			} `xml:"Client"`
-			IsCurrent   string `xml:"IsCurrent"`
-			IsDefault   string `xml:"IsDefault"`
-			IsProtected string `xml:"IsProtected"`
-			Servers     struct {
-				Server struct {
-					ID   string `xml:"Id"`
-					Type string `xml:"Type"`
-				} `xml:"Server"`
-			} `xml:"Servers"`
-		} `xml:"Identity"`
+		Identities Identities `xml:"Identity"`
 	} `xml:"GetIdentitiesWithCredentialResult"`
 }
 

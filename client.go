@@ -405,8 +405,8 @@ func (c *Client) Do(req *http.Request, body interface{}) (*http.Response, error)
 		return httpResp, err
 	}
 
-	if statusResponseBody.Node.Status.Error() != "" {
-		return httpResp, statusResponseBody.Node.Status
+	if statusResponseBody.Node.Type == "Exception" {
+		return httpResp, errors.New(statusResponseBody.Node.Description)
 	}
 
 	if soapError.Error() != "" {
@@ -580,6 +580,7 @@ type StatusResponseBody struct {
 	Response *http.Response
 
 	Node struct {
-		Status Status `xml:"status"`
+		Type        string `xml:"Type"`
+		Description string `xml:"Description"`
 	} `xml:",any"`
 }

@@ -352,3 +352,77 @@ func (c CustomFieldValue) MarshalXML(e *xml.Encoder, start xml.StartElement) err
 func (c CustomFieldValue) IsEmpty() bool {
 	return zero.IsZero(c)
 }
+
+type BundleList struct {
+	XMLName xml.Name `xml:"web:BundleList"`
+
+	AllowDifference   bool    `xml:"web:AllowDifference"`
+	DirectLedger      bool    `xml:"web:DirectLedger"`
+	SaveOption        int     `xml:"web:SaveOption"`
+	DefaultCustomerId int     `xml:"web:DefaultCustomerId"`
+	Bundles           Bundles `xml:"web:Bundles>web:Bundle"`
+}
+
+type Bundles []Bundle
+
+type Bundle struct {
+	XMLName xml.Name `xml:"web:Bundle"`
+
+	YearID                 int      `xml:"web:YearId"`
+	Sort                   int      `xml:"web:Sort"`
+	Name                   string   `xml:"web:Name"`
+	BundleDirectAccounting bool     `xml:"web:BundleDirectAccounting"`
+	Vouchers               Vouchers `xml:"web:Vouchers>web:Voucher"`
+}
+
+type Vouchers []Voucher
+
+type Voucher struct {
+	XMLName xml.Name `xml:"web:Voucher"`
+
+	TransactionNo int            `xml:"web:TransactionNo"`
+	Sort          int            `xml:"web:Sort"`
+	Entries       VoucherEntries `xml:"web:Entries>web:Entry"`
+}
+
+type VoucherEntries []VoucherEntry
+
+type VoucherEntry struct {
+	XMLName xml.Name `xml:"web:Entry"`
+
+	AccountNo    string  `xml:"web:AccountNo"`
+	CustomerID   int     `xml:"web:CustomerId"`
+	Date         Date    `xml:"web:Date"`
+	DueDate      Date    `xml:"web:DueDate"`
+	Amount       float64 `xml:"web:Amount"`
+	CurrencyID   string  `xml:"web:CurrencyId"`
+	CurrencyRate float64 `xml:"web:CurrencyRate"`
+	CurrencyUnit int     `xml:"web:CurrencyUnit"`
+	Comment      string  `xml:"web:Comment"`
+	LinkId       string  `xml:"web:LinkId,omitempty"`
+}
+
+type Identities []Identity
+
+type Identity struct {
+	ID   string `xml:"Id"`
+	User struct {
+		ContactId  string `xml:"ContactId"`
+		ID         string `xml:"Id"`
+		Name       string `xml:"Name"`
+		EmployeeId string `xml:"EmployeeId"`
+	} `xml:"User"`
+	Client struct {
+		ID   string `xml:"Id"`
+		Name string `xml:"Name"`
+	} `xml:"Client"`
+	IsCurrent   string `xml:"IsCurrent"`
+	IsDefault   string `xml:"IsDefault"`
+	IsProtected string `xml:"IsProtected"`
+	Servers     struct {
+		Server struct {
+			ID   string `xml:"Id"`
+			Type string `xml:"Type"`
+		} `xml:"Server"`
+	} `xml:"Servers"`
+}

@@ -31,6 +31,8 @@ func (env RequestEnvelope) MarshalXML(e *xml.Encoder, start xml.StartElement) er
 	start.Name = xml.Name{Local: "env:Envelope"}
 
 	namespaces := []xml.Attr{
+		{Name: xml.Name{Space: "", Local: "xmlns:xsi"}, Value: "http://www.w3.org/2001/XMLSchema-instance"},
+		{Name: xml.Name{Space: "", Local: "xmlns:xsd"}, Value: "http://www.w3.org/2001/XMLSchema"},
 		{Name: xml.Name{Space: "", Local: "xmlns:env"}, Value: "http://schemas.xmlsoap.org/soap/envelope/"},
 		{Name: xml.Name{Space: "", Local: "xmlns:web"}, Value: "http://24sevenOffice.com/webservices"},
 	}
