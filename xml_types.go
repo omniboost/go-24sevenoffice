@@ -58,6 +58,17 @@ type DateTime struct {
 	time.Time
 }
 
+func (dt DateTime) IsEmpty() bool {
+	return dt.Time.IsZero()
+}
+
+func (dt DateTime) MarshalXML(enc *xml.Encoder, start xml.StartElement) error {
+	if dt.Time.IsZero() {
+		return nil
+	}
+	return enc.EncodeElement(dt.Time.Format("2006-01-02T15:04:05"), start)
+}
+
 func (d *Date) MarshalJSON() ([]byte, error) {
 	if d.Time.IsZero() {
 		return json.Marshal(nil)

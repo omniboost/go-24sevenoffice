@@ -2,356 +2,10 @@ package twentyfour
 
 import (
 	"encoding/xml"
-	"strings"
 
 	"github.com/cydev/zero"
 	"github.com/omniboost/go-24sevenoffice/omitempty"
 )
-
-type RecordRef struct {
-	InternalID string `xml:"internalId,attr,omitempty"`
-	ExternalID string `xml:"externalId,attr,omitempty"`
-	Name       string `xml:"name,omitempty"`
-}
-
-func (r RecordRef) IsEmpty() bool {
-	return zero.IsZero(r)
-}
-
-type Customers []Customer
-
-type Customer struct {
-	InternalID           string    `xml:"internalId,attr,omitempty"`
-	ExternalID           string    `xml:"externalId,attr,omitempty"`
-	Type                 string    `xml:"type,attr,omitempty"`
-	ListRel              string    `xml:"listRel,attr,omitempty"`
-	EntityID             string    `xml:"entityId,omitempty"`
-	IsPerson             string    `xml:"isPerson,omitempty"`
-	CompanyName          string    `xml:"companyName,omitempty"`
-	EntityStatus         RecordRef `xml:"entityStatus,omitempty"`
-	Phone                string    `xml:"phone,omitempty"`
-	Email                string    `xml:"email,omitempty"`
-	DefaultAddress       string    `xml:"defaultAddress,omitempty"`
-	IsInactive           string    `xml:"isInactive,omitempty"`
-	Language             string    `xml:"language,omitempty"`
-	DateCreated          Date      `xml:"dateCreated,omitempty"`
-	Subsidiary           RecordRef `xml:"subsidiary,omitempty"`
-	VatRegNumber         string    `xml:"vatRegNumber,omitempty"`
-	Terms                RecordRef `xml:"terms,omitempty"`
-	CreditLimit          string    `xml:"creditLimit,omitempty"`
-	UnbilledOrders       string    `xml:"unbilledOrders,omitempty"`
-	Currency             RecordRef `xml:"currency,omitempty"`
-	ShipComplete         string    `xml:"shipComplete,omitempty"`
-	AlcoholRecipientType string    `xml:"alcoholRecipientType,omitempty"`
-	ReceivablesAccount   RecordRef `xml:"receivablesAccount,omitempty"`
-	LastModifiedDate     DateTime  `xml:"lastModifiedDate,omitempty"`
-	Stage                string    `xml:"stage,omitempty"`
-	IsBudgetApproved     string    `xml:"isBudgetApproved,omitempty"`
-	CustomFieldList      struct {
-		CustomField CustomFields `xml:"customField"`
-	} `xml:"customFieldList"`
-}
-
-func (c Customer) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
-	return omitempty.MarshalXML(c, e, start)
-}
-
-func (c Customer) IsEmpty() bool {
-	return zero.IsZero(c)
-}
-
-type CustomFields []CustomField
-
-type CustomField struct {
-	InternalID string           `xml:"internalId,attr,omitempty"`
-	ScriptID   string           `xml:"scriptId,attr,omitempty"`
-	Type       string           `xml:"xsi:type,attr,omitempty"`
-	Value      CustomFieldValue `xml:"value,omitempty"`
-}
-
-type Accounts []Account
-
-type Account struct {
-	InternalID      string    `xml:"internalId,attr"`
-	ExternalID      string    `xml:"externalId,attr"`
-	Type            string    `xml:"type,attr"`
-	ListAcct        string    `xml:"listAcct,attr"`
-	AcctType        string    `xml:"acctType"`
-	AcctNumber      string    `xml:"acctNumber"`
-	AcctName        string    `xml:"acctName"`
-	IncludeChildren string    `xml:"includeChildren"`
-	GeneralRate     string    `xml:"generalRate"`
-	Parent          RecordRef `xml:"parent"`
-	CashFlowRate    string    `xml:"cashFlowRate"`
-	IsInactive      string    `xml:"isInactive"`
-	Inventory       string    `xml:"inventory"`
-	Eliminate       string    `xml:"eliminate"`
-	Revalue         string    `xml:"revalue"`
-	CustomFieldList struct {
-		CustomFields CustomFields `xml:"customField"`
-	} `xml:"customFieldList"`
-	Currency RecordRef `xml:"currency"`
-}
-
-type Departments []Department
-
-type Department struct {
-	InternalID      string    `xml:"internalId,attr"`
-	Type            string    `xml:"type,attr"`
-	ListAcct        string    `xml:"listAcct,attr"`
-	Name            string    `xml:"name"`
-	IncludeChildren string    `xml:"includeChildren"`
-	IsInactive      string    `xml:"isInactive"`
-	Parent          RecordRef `xml:"parent"`
-	CustomFieldList struct {
-		CustomField CustomFields `xml:"customField"`
-	} `xml:"customFieldList"`
-}
-
-type Record struct {
-	Type   string `xml:"xsi:type,attr"`
-	Record interface{}
-}
-
-func (r Record) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
-	start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "xsi:type"}, Value: r.Type})
-	return omitempty.MarshalXML(r.Record, e, start)
-}
-
-type Classifications []Classification
-
-type Classification struct {
-	InternalID      string `xml:"internalId,attr"`
-	Type            string `xml:"type,attr"`
-	ListAcct        string `xml:"listAcct,attr"`
-	Name            string `xml:"name"`
-	IncludeChildren string `xml:"includeChildren"`
-	IsInactive      string `xml:"isInactive"`
-	CustomFieldList struct {
-		CustomFields CustomFields `xml:"customField"`
-	} `xml:"customFieldList"`
-}
-
-type JournalEntry struct {
-	TranGeneral      string            `xml:"tranGeneral,attr,omitempty"`
-	InternalId       string            `xml:"internalId,attr,omitempty"`
-	Type             string            `xml:"type,attr,omitempty"`
-	TranDate         Date              `xml:"tranDate,omitempty"`
-	Currency         RecordRef         `xml:"currency,omitempty"`
-	ExchangeRate     string            `xml:"exchangeRate,omitempty"`
-	TranId           string            `xml:"tranId,omitempty"`
-	Subsidiary       RecordRef         `xml:"subsidiary,omitempty"`
-	CreatedDate      Date              `xml:"createdDate,omitempty"`
-	LastModifiedDate Date              `xml:"lastModifiedDate,omitempty"`
-	LineList         JournalEntryLines `xml:"lineList>line"`
-	Memo             string            `xml:"memo"`
-	CustomFieldList  struct {
-		CustomField CustomFields `xml:"customField,omitempty"`
-	} `xml:"customFieldList,omitempty"`
-}
-
-func (j JournalEntry) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
-	return omitempty.MarshalXML(j, e, start)
-}
-
-func (j JournalEntry) IsEmpty() bool {
-	return zero.IsZero(j)
-}
-
-// type JournalEntryLineList struct {
-// 	Line JournalEntryLines
-// }
-
-// func (j JournalEntryLineList) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
-// 	return omitempty.MarshalXML(j, e, start)
-// }
-
-// func (j JournalEntryLineList) IsEmpty() bool {
-// 	return zero.IsZero(j)
-// }
-
-type JournalEntryLines []JournalEntryLine
-
-type JournalEntryLine struct {
-	XMLName xml.Name `xml:"line"`
-
-	Account         RecordRef `xml:"account"`
-	Line            int       `xml:"line,omitempty"`
-	Debit           float64   `xml:"debit,omitempty"`
-	Memo            string    `xml:"memo"`
-	Eliminate       string    `xml:"eliminate,omitempty"`
-	CustomFieldList struct {
-		CustomField CustomFields `xml:"customField,omitempty"`
-	} `xml:"customFieldList,omitempty"`
-	Credit     float64   `xml:"credit,omitempty"`
-	Department RecordRef `xml:"department,omitempty"`
-	TaxCode    RecordRef `xml:"taxCode,omitempty"`
-	Tax1Amt    float64   `xml:"tax1Amt,omitempty"`
-	Tax1Acct   RecordRef `xml:"tax1Acct,omitempty"`
-}
-
-func (j JournalEntryLine) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
-	return omitempty.MarshalXML(j, e, start)
-}
-
-func (j JournalEntryLine) IsEmpty() bool {
-	return zero.IsZero(j)
-}
-
-type SalesTaxItems []SalesTaxItem
-
-type SalesTaxItem struct {
-	ListAcct       string    `xml:"listAcct,attr"`
-	InternalID     string    `xml:"internalId,attr"`
-	Type           string    `xml:"type,attr"`
-	ItemID         string    `xml:"itemId"`
-	Description    string    `xml:"description"`
-	Rate           string    `xml:"rate"`
-	TaxType        RecordRef `xml:"taxType"`
-	TaxAgency      RecordRef `xml:"taxAgency"`
-	IsInactive     string    `xml:"isInactive"`
-	SubsidiaryList struct {
-		RecordRef RecordRef `xml:"recordRef"`
-	} `xml:"subsidiaryList"`
-	IncludeChildren       string `xml:"includeChildren"`
-	Eccode                string `xml:"eccode"`
-	ReverseCharge         string `xml:"reverseCharge"`
-	Service               string `xml:"service"`
-	Exempt                string `xml:"exempt"`
-	IsDefault             string `xml:"isDefault"`
-	ExcludeFromTaxReports string `xml:"excludeFromTaxReports"`
-	Available             string `xml:"available"`
-	Export                string `xml:"export"`
-	CustomFieldList       struct {
-		CustomField CustomFields `xml:"customField,omitempty"`
-	} `xml:"customFieldList,omitempty"`
-	Parent RecordRef `xml:"parent"`
-}
-
-type Invoice struct {
-	TranSales             string          `xml:"tranSales,attr,omitempty"`
-	InternalId            string          `xml:"internalId,attr,omitempty"`
-	Type                  string          `xml:"type,attr,omitempty"`
-	ExternalId            string          `xml:"externalId,attr,omitempty"`
-	CreatedDate           Date            `xml:"createdDate,omitempty"`
-	LastModifiedDate      Date            `xml:"lastModifiedDate,omitempty"`
-	Entity                RecordRef       `xml:"entity,omitempty"`
-	TranDate              Date            `xml:"tranDate,omitempty"`
-	TranId                string          `xml:"tranId,omitempty"`
-	Department            RecordRef       `xml:"department,omitempty"`
-	Terms                 RecordRef       `xml:"terms,omitempty"`
-	Subsidiary            RecordRef       `xml:"subsidiary,omitempty"`
-	Currency              RecordRef       `xml:"currency,omitempty"`
-	DueDate               Date            `xml:"dueDate,omitempty"`
-	OtherRefNum           string          `xml:"otherRefNum,omitempty"`
-	Memo                  string          `xml:"memo,omitempty"`
-	TotalCostEstimate     string          `xml:"totalCostEstimate,omitempty"`
-	EstGrossProfit        string          `xml:"estGrossProfit,omitempty"`
-	EstGrossProfitPercent string          `xml:"estGrossProfitPercent,omitempty"`
-	Account               RecordRef       `xml:"account,omitempty"`
-	ExchangeRate          string          `xml:"exchangeRate,omitempty"`
-	CurrencyName          string          `xml:"currencyName,omitempty"`
-	BillingAddress        Address         `xml:"billingAddress,omitempty"`
-	ShippingAddress       Address         `xml:"shippingAddress,omitempty"`
-	ShipIsResidential     string          `xml:"shipIsResidential,omitempty"`
-	SubTotal              string          `xml:"subTotal,omitempty"`
-	CanHaveStackable      string          `xml:"canHaveStackable,omitempty"`
-	TaxTotal              string          `xml:"taxTotal,omitempty"`
-	Total                 string          `xml:"total,omitempty"`
-	Status                string          `xml:"status,omitempty"`
-	Email                 string          `xml:"email,omitempty"`
-	VatRegNum             string          `xml:"vatRegNum,omitempty"`
-	ItemCostDiscPrint     string          `xml:"itemCostDiscPrint"`
-	ExpCostDiscPrint      string          `xml:"expCostDiscPrint"`
-	ItemList              InvoiceItemList `xml:"itemList>item"`
-	OverrideInstallments  string          `xml:"overrideInstallments"`
-	CustomFieldList       struct {
-		CustomField CustomFields `xml:"customField"`
-	} `xml:"customFieldList"`
-}
-
-type Transactions []Transaction
-
-type Transaction struct{}
-
-type Address struct {
-	PlatformCommon  string `xml:"platformCommon,attr"`
-	InternalId      string `xml:"internalId"`
-	Country         string `xml:"country"`
-	Attention       string `xml:"attention"`
-	Addressee       string `xml:"addressee"`
-	Addr1           string `xml:"addr1"`
-	City            string `xml:"city"`
-	Zip             string `xml:"zip"`
-	AddrText        string `xml:"addrText"`
-	Override        string `xml:"override"`
-	CustomFieldList struct {
-		CustomField CustomFields `xml:"customField"`
-	} `xml:"customFieldList"`
-	Addr2 string `xml:"addr2"`
-}
-
-type InvoiceItemList []InvoiceItem
-
-type InvoiceItem struct {
-	Item            RecordRef `xml:"item,omitempty"`
-	Line            string    `xml:"line,omitempty"`
-	Description     string    `xml:"description,omitempty"`
-	Amount          float64   `xml:"amount,omitempty"`
-	Quantity        string    `xml:"quantity,omitempty"`
-	Price           RecordRef `xml:"price,omitempty"`
-	Rate            float64   `xml:"rate,omitempty"`
-	Department      RecordRef `xml:"department,omitempty"`
-	GrossAmt        float64   `xml:"grossAmt,omitempty"`
-	Tax1Amt         float64   `xml:"tax1Amt,omitempty"`
-	Tax1Acct        RecordRef `xml:"tax1Acct,omitempty"`
-	TaxCode         RecordRef `xml:"taxCode,omitempty"`
-	TaxRate1        float64   `xml:"taxRate1,omitempty"`
-	CustomFieldList struct {
-		CustomField CustomFields `xml:"customField,omitempty"`
-	} `xml:"customFieldList,omitempty"`
-}
-
-func (i InvoiceItem) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
-	return omitempty.MarshalXML(i, e, start)
-}
-
-func (i InvoiceItem) IsEmpty() bool {
-	return zero.IsZero(i)
-}
-
-type Status struct {
-	IsSuccess    bool `xml:"isSuccess,attr"`
-	StatusDetail struct {
-		Type    string `xml:"type,attr"`
-		Code    string `xml:"code"`
-		Message string `xml:"message"`
-	} `xml:"statusDetail"`
-}
-
-func (s Status) Error() string {
-	if s.IsSuccess == false && s.StatusDetail.Message != "" {
-		s := []string{s.StatusDetail.Type, s.StatusDetail.Code, s.StatusDetail.Message}
-		return strings.Join(s, ", ")
-	}
-
-	return ""
-}
-
-type CustomFieldValue struct {
-	InternalID string `xml:"internalId,attr,omitempty"`
-	TypeID     string `xml:"typeId,attr,omitempty"`
-	Name       string `xml:"name,omitempty"`
-	Text       string `xml:",chardata"`
-}
-
-func (c CustomFieldValue) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
-	return omitempty.MarshalXML(c, e, start)
-}
-
-func (c CustomFieldValue) IsEmpty() bool {
-	return zero.IsZero(c)
-}
 
 type BundleList struct {
 	XMLName xml.Name `xml:"web:BundleList"`
@@ -426,3 +80,222 @@ type Identity struct {
 		} `xml:"Server"`
 	} `xml:"Servers"`
 }
+
+type Invoices []Invoice
+
+type Invoice struct {
+	OrderId               int                   `xml:"OrderId,omitempty"`                // Can be specified in requests to SaveInvoices, otherwise set by the system. If an existing orderId is set the request is treated as an update for an InvoiceOrder. Default value: int.MinValue
+	CustomerId            int                   `xml:"CustomerId,omitempty"`             // Required. Must exist in system. Default value: int.MinValue
+	CustomerName          string                `xml:"CustomerName,omitempty"`           // Default value: “”. Max length 100 characters.
+	CustomerDeliveryName  string                `xml:"CustomerDeliveryName,omitempty"`   // Default value: “”. Use this property when getting the Customer Delivery Name. the Delivery Name property under ‘Addresses’ can also be used for setting the name, but only this property can be used for both getting and setting the Delivery Name. Max length 250 characters
+	CustomerDeliveryPhone string                `xml:"CustomerDeliveryPhone,omitempty"`  // Customer Delivery Phone. Max length 25 characters
+	DeliveryAlternative   string                `xml:"DeliveryAlternative,omitempty"`    // Default value: “”. Max length 250 characters
+	Addresses             Addresses             `xml:"Addresses,omitempty"`              // Default value: null
+	OrderStatus           OrderSlipStateType    `xml:"OrderStatus,omitempty"`            // Default value: Web
+	InvoiceId             int                   `xml:"InvoiceId,omitempty"`              // Cannot be specified in requests to SaveInvoices, this is always defined by the system. Default value: int.MinValue
+	DateOrdered           DateTime              `xml:"DateOrdered,omitempty"`            // Default value: DateTime.MinValue
+	DateInvoiced          DateTime              `xml:"DateInvoiced,omitempty"`           // Default value: DateTime.MinValue
+	DateChanged           DateTime              `xml:"DateChanged,omitempty"`            // Default value: DateTime.MinValue
+	PaymentTime           int                   `xml:"PaymentTime,omitempty"`            // Default (no change): int.MinValue
+	CustomerReferenceNo   string                `xml:"CustomerReferenceNo,omitempty"`    // Deprecated
+	ProjectId             int                   `xml:"ProjectId,omitempty"`              // If set, must exist in system. Default value: int.MinValue
+	OurReference          int                   `xml:"OurReference,omitempty"`           // EmployeeId. If set, must exist in system. Default value: int.MinValue
+	IncludeVAT            bool                  `xml:"IncludeVAT,omitempty"`             // Default value: null
+	YourReference         string                `xml:"YourReference,omitempty"`          // Default value: “”. Max length 50 characters
+	OrderTotalIncVat      float64               `xml:"OrderTotalIncVat,omitempty"`       // Default value: Decimal.MinValue. Read only
+	OrderTotalVat         float64               `xml:"OrderTotalVat,omitempty"`          // Default value: Decimal.MinValue. Read only
+	InvoiceTitle          string                `xml:"InvoiceTitle,omitempty"`           // Default value: “”. Max length 300 characters. This is the "comment" field of an invoice.
+	InvoiceText           string                `xml:"InvoiceText,omitempty"`            // Default value: “”. Max length 750 characters
+	Paid                  DateTime              `xml:"Paid,omitempty"`                   // Default value: DateTime.MinValue
+	OCR                   string                `xml:"OCR,omitempty"`                    // Default value: “”. This is the invoice KID number. Max length 32 characters
+	CustomerOrgNo         string                `xml:"CustomerOrgNo,omitempty"`          // Default value: “”. Max length 20 characters
+	Currency              Currency              `xml:"Currency,omitempty"`               // Default value: null
+	PaymentMethodId       int                   `xml:"PaymentMethodId,omitempty"`        // Default value: int.MinValue
+	PaymentAmount         float64               `xml:"PaymentAmount,omitempty"`          // Write only property. Used for registering payments. Default value: Decimal.MinValue
+	ProductionManagerId   int                   `xml:"ProductionManagerId,omitempty"`    // If set, must exist in system. Default value: int.MinValue
+	SalesOpportunityId    int                   `xml:"SalesOpportunityId,omitempty"`     // If set, must exist in system. Default value: int.MinValue
+	TypeOfSaleId          int                   `xml:"TypeOfSaleId,omitempty"`           // Default value: int.MinValue. You can get the values from GetTypeGroupList in the ClientService
+	Distributor           Distributor           `xml:"Distributor,omitempty"`            // Default value: Default
+	DistributionMethod    DistributionMethod    `xml:"DistributionMethod,omitempty"`     // Default value: Unchanged
+	DepartmentId          int                   `xml:"DepartmentId,omitempty"`           // If set, must exist in system. Default value: int.MinValue
+	ExternalStatus        int                   `xml:"ExternalStatus,omitempty"`         // Default value: int.MinValue
+	DeliveryDate          DateTime              `xml:"DeliveryDate,omitempty"`           // Default value: DateTime.MinValue
+	SkipStock             bool                  `xml:"SkipStock,omitempty"`              // Default value: false
+	ProductionNumber      string                `xml:"ProductionNumber,omitempty"`       // Default value: “”. Max length 20 characters
+	ReferenceInvoiceId    int                   `xml:"ReferenceInvoiceId,omitempty"`     // Default value: int.MinValue. Used for reference to original invoice when making a credit note.
+	ReferenceOrderId      int                   `xml:"ReferenceOrderId,omitempty"`       // Default value: int.MinValue. Used for reference to original order when making a credit note.
+	ReferenceNumber       string                `xml:"ReferenceNumber,omitempty"`        // Default value: “”. Max length 50 characters
+	InvoiceEmailAddress   string                `xml:"InvoiceEmailAddress,omitempty"`    // Default value: “”. Max length 250 characters
+	AccrualDate           DateTime              `xml:"AccrualDate,omitempty"`            // Default value: DateTime.MinValue. Determines the start date for the accrual period(s)
+	AccrualLength         int                   `xml:"AccrualLength,omitempty"`          // Default value: int.MinValue. Sets the number of accrual months
+	RoundFactor           float64               `xml:"RoundFactor,omitempty"`            // Default value: Decimal.MinValue. May be set to 0.1, 0.5 or 1.0
+	InvoiceTemplateId     Guid                  `xml:"InvoiceTemplateId,omitempty"`      // Default value: 00000000-0000-0000-0000-000000000000
+	VippsNumber           string                `xml:"VippsNumber,omitempty"`            // Deprecated
+	DeliveryMethod        DeliveryMethod        `xml:"DeliveryMethod,omitempty"`         // Default value: null
+	SendToFactoring       bool                  `xml:"SendToFactoring,omitempty"`        // Default value: true
+	Commission            float64               `xml:"Commission,omitempty"`             // Default value: Decimal.MinValue
+	InvoiceRows           InvoiceRows           `xml:"InvoiceRows>InvoiceRow,omitempty"` // Default value: null
+	APIException          APIException          `xml:"APIException,omitempty"`           // Default value: null
+	UserDefinedDimensions UserDefinedDimensions `xml:"UserDefinedDimensions,omitempty"`  // Dimensions defined by the user
+	GLNNumber             string                `xml:"GLNNumber,omitempty"`              // Default value: “”. Uses Customer GLNNumber if default value is used and customer card has GLNNumber. To override this logic and set GLNNumber to the value NULL, the value in your request should be set to the string value NULL. Max length 13 characters
+	CustomerDeliveryId    int                   `xml:"CustomerDeliveryId,omitempty"`     // Default value: int.MinValue. CustomerId of recipient, in cases where it differs from CustomerId
+}
+
+type InvoiceOrders []InvoiceOrder
+
+type InvoiceOrder struct {
+	OrderID              string    `xml:"OrderId"`
+	CustomerID           string    `xml:"CustomerId"`
+	CustomerName         string    `xml:"CustomerName"`
+	CustomerDeliveryName string    `xml:"CustomerDeliveryName"`
+	Addresses            Addresses `xml:"Addresses"`
+	OrderStatus          string    `xml:"OrderStatus"`
+	InvoiceID            string    `xml:"InvoiceId"`
+	DateOrdered          Date      `xml:"DateOrdered"`
+	DateInvoiced         Date      `xml:"DateInvoiced"`
+	DateChanged          Date      `xml:"DateChanged"`
+	PaymentTime          string    `xml:"PaymentTime"`
+	OurReference         string    `xml:"OurReference"`
+	IncludeVAT           struct {
+		Nil string `xml:"nil,attr"`
+	} `xml:"IncludeVAT"`
+	OrderTotalIncVat string `xml:"OrderTotalIncVat"`
+	OrderTotalVat    string `xml:"OrderTotalVat"`
+	CustomerOrgNo    string `xml:"CustomerOrgNo"`
+	Currency         struct {
+		Symbol string `xml:"Symbol"`
+	} `xml:"Currency"`
+	TypeOfSaleID        string      `xml:"TypeOfSaleId"`
+	InvoiceEmailAddress string      `xml:"InvoiceEmailAddress"`
+	InvoiceRows         InvoiceRows `xml:"InvoiceRows>InvoiceRow"`
+	AccrualLength       string      `xml:"AccrualLength"`
+	RoundFactor         string      `xml:"RoundFactor"`
+	InvoiceTemplateID   string      `xml:"InvoiceTemplateId"`
+	DeliveryMethod      string      `xml:"DeliveryMethod"`
+	SendToFactoring     string      `xml:"SendToFactoring"`
+	Commission          string      `xml:"Commission"`
+}
+
+type Companies []Company
+
+type Company struct {
+	ID                    int          `xml:"Id,omitempty"`
+	ExternalID            string       `xml:"ExternalId,omitempty"`
+	Name                  string       `xml:"Name"`
+	FirstName             string       `xml:"FirstName,omitempty"`
+	Addresses             Addresses    `xml:"Addresses,omitempty"`
+	Country               string       `xml:"Country,omitempty"`
+	InvoiceLanguage       string       `xml:"InvoiceLanguage,omitempty"`
+	Type                  string       `xml:"Type,omitempty"`
+	DateCreated           Date         `xml:"DateCreated,omitempty"`
+	PriceList             string       `xml:"PriceList,omitempty"`
+	Owner                 string       `xml:"Owner,omitempty"`
+	TypeGroup             string       `xml:"TypeGroup,omitempty"`
+	DateChanged           Date         `xml:"DateChanged,omitempty"`
+	Maps                  string       `xml:"Maps,omitempty"`
+	PaymentTime           string       `xml:"PaymentTime,omitempty"`
+	Factoring             string       `xml:"Factoring,omitempty"`
+	LedgerCustomerAccount string       `xml:"LedgerCustomerAccount,omitempty"`
+	LedgerSupplierAccount string       `xml:"LedgerSupplierAccount,omitempty"`
+	Private               string       `xml:"Private,omitempty"`
+	APIException          APIException `xml:"APIException,omitempty"`
+}
+
+// func (c Company) IsEmpty() bool {
+// 	return zero.IsZero(c)
+// }
+
+// func (c Company) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
+// 	return omitempty.MarshalXML(c, e, start)
+// }
+
+type APIException struct {
+	Type    string `xml:"web:Type"`
+	Message string `xml:"web:Message"`
+}
+
+type Addresses struct {
+	Post     Address `xml:"Post,omitempty"`
+	Delivery Address `xml:"Delivery,omitempty"`
+	Visit    Address `xml:"Visit,omitempty"`
+	Invoice  Address `xml:"Invoice,omitempty"`
+}
+
+func (a Addresses) IsEmpty() bool {
+	return zero.IsZero(a)
+}
+
+func (a Addresses) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
+	return omitempty.MarshalXML(a, e, start)
+}
+
+type Address struct {
+	Street     string `xml:"web:Street"`
+	State      string `xml:"web:State"`
+	PostalCode string `xml:"web:PostalCode"`
+	PostalArea string `xml:"web:PostalArea"`
+	Name       string `xml:"web:Name"`
+	City       string `xml:"web:City"`
+	Country    string `xml:"web:Country"`
+}
+
+func (a Address) IsEmpty() bool {
+	return zero.IsZero(a)
+}
+
+type InvoiceRows []InvoiceRow
+
+type InvoiceRow struct {
+	ProductId             int                   `xml:"ProductId,omitempty"`             // Required for Row Type Normal. Must exist in system. Default value: int.MinValue
+	ProductNo             string                `xml:"ProductNo,omitempty"`             // Read only. When creating orders with SaveInvoices you must use ProductId
+	RowId                 int                   `xml:"RowId,omitempty"`                 // Used when editing an existing order. Default value: int.MinValue
+	VatRate               float64               `xml:"VatRate,omitempty"`               // Default value: Decimal.MinValue. Read only
+	Price                 float64               `xml:"Price,omitempty"`                 // Default value: Decimal.MinValue
+	Name                  string                `xml:"Name,omitempty"`                  // Default value: “”. Max length 300 characters
+	DiscountRate          float64               `xml:"DiscountRate,omitempty"`          // Default value: Decimal.MinValue
+	Quantity              float64               `xml:"Quantity,omitempty"`              // Default value: Decimal.MinValue
+	QuantityDelivered     float64               `xml:"QuantityDelivered,omitempty"`     // Default value: Decimal.MinValue
+	QuantityOrdered       float64               `xml:"QuantityOrdered,omitempty"`       // Default value: Decimal.MinValue
+	QuantityRest          float64               `xml:"QuantityRest,omitempty"`          // -1. This property is used for creating rest orders
+	Cost                  float64               `xml:"Cost,omitempty"`                  // Default value: Decimal.MinValue
+	InPrice               float64               `xml:"InPrice,omitempty"`               // Default value: Decimal.MinValue
+	SequenceNumber        int                   `xml:"SequenceNumber,omitempty"`        // Default value: Int16.MinValue
+	Hidden                bool                  `xml:"Hidden,omitempty"`                // Default value: false. Makes the row hidden on the actual invoice statement.
+	Type                  RowType               `xml:"Type,omitempty"`                  // Normal or Text. Default value: Normal. Please note that TextBold is deprecated
+	AccrualDate           DateTime              `xml:"AccrualDate,omitempty"`           // Default value: DateTime.MinValue
+	AccrualLength         int                   `xml:"AccrualLength,omitempty"`         // Default value: int.MinValue
+	ChangeState           ChangeState           `xml:"ChangeState,omitempty"`           // This property must be used when editing an already exisiting order. Default value: ChangeState.None
+	TypeGroupId           int                   `xml:"TypeGroupId,omitempty"`           //
+	AccountProject        bool                  `xml:"AccountProject,omitempty"`        // N/A
+	DepartmentId          int                   `xml:"DepartmentId,omitempty"`          //
+	ProjectId             int                   `xml:"ProjectId,omitempty"`             //
+	UserDefinedDimensions UserDefinedDimensions `xml:"UserDefinedDimensions,omitempty"` // Dimensions defined by the user
+	TaxSettings           TaxSettings           `xml:"TaxSettings,omitempty"`           // Override the typegroup tax rate for this invoice row
+}
+
+type RowType string
+
+type ChangeState string
+
+type UserDefinedDimensions []interface{}
+
+type TaxSettings struct {
+	TaxAccount int     `xml:"TaxAccount,omitempty"` // The account
+	TaxCode    int     `xml:"TaxCode,omitempty"`    // Get this from GetTaxCodeList in the AccountService
+	TaxRate    float64 `xml:"TaxRate,omitempty"`    // The tax rate you wish to set
+}
+
+type DeliveryMethod struct {
+	ID          int    `xml:"Id,omitempty"`          // DeliveryId
+	Description string `xml:"Description,omitempty"` // Description
+}
+
+type OrderSlipStateType string
+
+type Currency string
+
+type Distributor interface{}
+
+type DistributionMethod interface{}
+
+type Guid string

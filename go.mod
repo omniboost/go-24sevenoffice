@@ -9,4 +9,9 @@ require (
 	gopkg.in/guregu/null.v3 v3.5.0
 )
 
+require (
+	github.com/hashicorp/errwrap v1.0.0 // indirect
+	github.com/hashicorp/go-multierror v1.1.1 // indirect
+)
+
 replace github.com/gorilla/schema => github.com/omniboost/schema v1.1.1-0.20191030093734-a170fe1a7240
