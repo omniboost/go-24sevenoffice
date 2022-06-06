@@ -6,12 +6,8 @@ import (
 	"testing"
 )
 
-func TestGetAccountList(t *testing.T) {
-	req1 := client.NewSetIdentityByIDRequest()
-	req1.RequestBody().IdentityID = client.IdentityID()
-	req1.Do()
-
-	req := client.NewGetAccountListRequest()
+func TestGetIdentity(t *testing.T) {
+	req := client.NewGetIdentityRequest()
 	resp, err := req.Do()
 	if err != nil {
 		t.Error(err)

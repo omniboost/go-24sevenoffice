@@ -91,7 +91,7 @@ type LoginRequestBody struct {
 
 	Credential struct {
 		ApplicationID string `xml:"web:ApplicationId"`
-		IdentidyID    string `xml:"web:IdentidyId,omitempty"`
+		IdentityID    string `xml:"web:IdentityId,omitempty"`
 		Username      string `xml:"web:Username"`
 		Password      string `xml:"web:Password"`
 	} `xml:"web:credential"`

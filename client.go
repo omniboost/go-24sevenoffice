@@ -135,6 +135,7 @@ func (c *Client) FetchSessionID() (string, error) {
 	req.RequestBody().Credential.ApplicationID = c.ApplicationID()
 	req.RequestBody().Credential.Username = c.Username()
 	req.RequestBody().Credential.Password = c.Password()
+	req.RequestBody().Credential.IdentityID = c.IdentityID()
 	resp, err := req.Do()
 	return resp.LoginResult, err
 }
