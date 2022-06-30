@@ -299,3 +299,13 @@ type Distributor interface{}
 type DistributionMethod interface{}
 
 type Guid string
+
+type TaxCodes []TaxCode
+
+type TaxCode struct {
+	TaxID     int     `xml:"TaxId"`
+	TaxNo     string  `xml:"TaxNo"`
+	TaxName   string  `xml:"TaxName"`
+	TaxRate   float64 `xml:"TaxRate"`
+	AccountNo string  `xml:"AccountNo"`
+}

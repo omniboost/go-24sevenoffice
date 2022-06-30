@@ -110,14 +110,7 @@ type GetTaxCodeListRequestResponseBody struct {
 	XMLName xml.Name `xml:"GetTaxCodeListResponse"`
 
 	GetTaxCodeListResult struct {
-		Text           string `xml:",chardata"`
-		TaxCodeElement []struct {
-			TaxId     int     `xml:"TaxId"`
-			TaxNo     string  `xml:"TaxNo"`
-			TaxName   string  `xml:"TaxName"`
-			TaxRate   float64 `xml:"TaxRate"`
-			AccountNo string  `xml:"AccountNo"`
-		} `xml:"TaxCodeElement"`
+		TaxCodeElement TaxCodes `xml:"TaxCodeElement"`
 	} `xml:"GetTaxCodeListResult"`
 }
 
