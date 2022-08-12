@@ -54,6 +54,7 @@ type VoucherEntry struct {
 	CurrencyUnit int     `xml:"web:CurrencyUnit"`
 	Comment      string  `xml:"web:Comment"`
 	LinkId       string  `xml:"web:LinkId,omitempty"`
+	TaxNo        int     `xml:"web:TaxNo,omitempty"` // actually TaxID
 }
 
 type Identities []Identity
