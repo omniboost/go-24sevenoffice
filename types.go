@@ -219,8 +219,8 @@ type Company struct {
 // }
 
 type APIException struct {
-	Type    string `xml:"web:Type"`
-	Message string `xml:"web:Message"`
+	Type    string `xml:"Type"`
+	Message string `xml:"Message"`
 }
 
 type Addresses struct {

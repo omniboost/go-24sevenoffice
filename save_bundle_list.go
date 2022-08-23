@@ -110,6 +110,11 @@ func (r *SaveBundleListRequest) NewResponseBody() *SaveBundleListRequestResponse
 
 type SaveBundleListRequestResponseBody struct {
 	XMLName xml.Name `xml:"SaveBundleListResponse"`
+
+	SaveBundleListResult struct {
+		Type        string `xml:"Type"`
+		Description string `xml:"Description"`
+	} `xml:"SaveBundleListResult"`
 }
 
 func (r *SaveBundleListRequest) URL() (*url.URL, error) {
@@ -141,6 +146,10 @@ func (r *SaveBundleListRequest) Do() (SaveBundleListRequestResponseBody, error) 
 	_, err = r.client.Do(req, responseBody)
 	if err != nil {
 		return *responseBody, errors.WithStack(err)
+	}
+
+	if responseBody.SaveBundleListResult.Type != "Ok" {
+		return *responseBody, errors.Errorf("%s: %s", responseBody.SaveBundleListResult.Type, responseBody.SaveBundleListResult.Description)
 	}
 
 	return *responseBody, nil

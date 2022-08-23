@@ -164,7 +164,7 @@ func (r *SaveInvoicesRequest) Do() (SaveInvoicesRequestResponseBody, error) {
 	var errs error
 	for _, c := range responseBody.Invoices {
 		if c.APIException.Message != "" {
-			errs = multierror.Append(errs, err)
+			errs = multierror.Append(errs, errors.Errorf("%s: %s", c.APIException.Type, c.APIException.Message))
 		}
 	}
 

@@ -164,7 +164,7 @@ func (r *SaveCompaniesRequest) Do() (SaveCompaniesRequestResponseBody, error) {
 	var errs error
 	for _, c := range responseBody.Companies {
 		if c.APIException.Message != "" {
-			errs = multierror.Append(errs, err)
+			errs = multierror.Append(errs, errors.Errorf("%s: %s", c.APIException.Type, c.APIException.Message))
 		}
 	}
 
