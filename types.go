@@ -142,6 +142,14 @@ type Invoice struct {
 	CustomerDeliveryId    int                   `xml:"CustomerDeliveryId,omitempty"`     // Default value: int.MinValue. CustomerId of recipient, in cases where it differs from CustomerId
 }
 
+func (i Invoice) IsEmpty() bool {
+	return zero.IsZero(i)
+}
+
+func (i Invoice) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
+	return omitempty.MarshalXML(i, e, start)
+}
+
 type InvoiceOrders []InvoiceOrder
 
 type InvoiceOrder struct {
@@ -231,13 +239,13 @@ func (a Addresses) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 }
 
 type Address struct {
-	Street     string `xml:"web:Street"`
-	State      string `xml:"web:State"`
-	PostalCode string `xml:"web:PostalCode"`
-	PostalArea string `xml:"web:PostalArea"`
-	Name       string `xml:"web:Name"`
-	City       string `xml:"web:City"`
-	Country    string `xml:"web:Country"`
+	Street     string `xml:"web:Street,omitempty"`
+	State      string `xml:"web:State,omitempty"`
+	PostalCode string `xml:"web:PostalCode,omitempty"`
+	PostalArea string `xml:"web:PostalArea,omitempty"`
+	Name       string `xml:"web:Name,omitempty"`
+	City       string `xml:"web:City,omitempty"`
+	Country    string `xml:"web:Country,omitempty"`
 }
 
 func (a Address) IsEmpty() bool {
