@@ -44,17 +44,21 @@ type VoucherEntries []VoucherEntry
 type VoucherEntry struct {
 	XMLName xml.Name `xml:"web:Entry"`
 
-	AccountNo    string  `xml:"web:AccountNo"`
-	CustomerID   int     `xml:"web:CustomerId"`
-	Date         Date    `xml:"web:Date"`
-	DueDate      Date    `xml:"web:DueDate"`
-	Amount       float64 `xml:"web:Amount"`
-	CurrencyID   string  `xml:"web:CurrencyId"`
-	CurrencyRate float64 `xml:"web:CurrencyRate"`
-	CurrencyUnit int     `xml:"web:CurrencyUnit"`
-	Comment      string  `xml:"web:Comment"`
-	LinkId       string  `xml:"web:LinkId,omitempty"`
-	TaxNo        int     `xml:"web:TaxNo,omitempty"` // actually TaxID
+	AccountNo          string  `xml:"web:AccountNo"`
+	CustomerID         int     `xml:"web:CustomerId"`
+	Date               Date    `xml:"web:Date"`
+	DueDate            Date    `xml:"web:DueDate"`
+	Amount             float64 `xml:"web:Amount"`
+	CurrencyID         string  `xml:"web:CurrencyId"`
+	CurrencyRate       float64 `xml:"web:CurrencyRate"`
+	CurrencyUnit       int     `xml:"web:CurrencyUnit"`
+	DepartmentID       int     `xml:"web:DepartmentId,omitempty"`
+	ProjectID          int     `xml:"web:ProjectId,omitempty"`
+	InvoiceReferenceNo int     `xml:"web:InvoiceReferenceNo,omitempty"`
+	InvoiceOCR         int     `xml:"web:InvoiceOcr,omitempty"`
+	Comment            string  `xml:"web:Comment"`
+	LinkId             string  `xml:"web:LinkId,omitempty"`
+	TaxNo              int     `xml:"web:TaxNo,omitempty"` // actually TaxID
 }
 
 type Identities []Identity
