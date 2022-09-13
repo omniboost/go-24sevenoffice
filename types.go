@@ -194,7 +194,8 @@ type Companies []Company
 type Company struct {
 	ID                    int          `xml:"Id,omitempty"`
 	ExternalID            string       `xml:"ExternalId,omitempty"`
-	Name                  string       `xml:"Name"`
+	OrganizationNumber    string       `xml:"OrganizationNumber,omitempty"`
+	Name                  string       `xml:"Name"` // Max length 20 characters
 	FirstName             string       `xml:"FirstName,omitempty"`
 	Addresses             Addresses    `xml:"Addresses,omitempty"`
 	Country               string       `xml:"Country,omitempty"`
@@ -211,6 +212,7 @@ type Company struct {
 	LedgerCustomerAccount string       `xml:"LedgerCustomerAccount,omitempty"`
 	LedgerSupplierAccount string       `xml:"LedgerSupplierAccount,omitempty"`
 	Private               string       `xml:"Private,omitempty"`
+	VATNumber             string       `xml:"VatNumber,omitempty"`
 	APIException          APIException `xml:"APIException,omitempty"`
 }
 
