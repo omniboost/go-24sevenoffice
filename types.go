@@ -48,9 +48,9 @@ type VoucherEntry struct {
 	CustomerID         int     `xml:"web:CustomerId"`
 	Date               Date    `xml:"web:Date"`
 	DueDate            Date    `xml:"web:DueDate"`
-	Amount             float64 `xml:"web:Amount"`
+	Amount             Number `xml:"web:Amount"`
 	CurrencyID         string  `xml:"web:CurrencyId"`
-	CurrencyRate       float64 `xml:"web:CurrencyRate"`
+	CurrencyRate       Number `xml:"web:CurrencyRate"`
 	CurrencyUnit       int     `xml:"web:CurrencyUnit"`
 	DepartmentID       int     `xml:"web:DepartmentId,omitempty"`
 	ProjectID          int     `xml:"web:ProjectId,omitempty"`
@@ -107,8 +107,8 @@ type Invoice struct {
 	OurReference          int                   `xml:"OurReference,omitempty"`           // EmployeeId. If set, must exist in system. Default value: int.MinValue
 	IncludeVAT            bool                  `xml:"IncludeVAT,omitempty"`             // Default value: null
 	YourReference         string                `xml:"YourReference,omitempty"`          // Default value: “”. Max length 50 characters
-	OrderTotalIncVat      float64               `xml:"OrderTotalIncVat,omitempty"`       // Default value: Decimal.MinValue. Read only
-	OrderTotalVat         float64               `xml:"OrderTotalVat,omitempty"`          // Default value: Decimal.MinValue. Read only
+	OrderTotalIncVat      Number               `xml:"OrderTotalIncVat,omitempty"`       // Default value: Decimal.MinValue. Read only
+	OrderTotalVat         Number               `xml:"OrderTotalVat,omitempty"`          // Default value: Decimal.MinValue. Read only
 	InvoiceTitle          string                `xml:"InvoiceTitle,omitempty"`           // Default value: “”. Max length 300 characters. This is the "comment" field of an invoice.
 	InvoiceText           string                `xml:"InvoiceText,omitempty"`            // Default value: “”. Max length 750 characters
 	Paid                  DateTime              `xml:"Paid,omitempty"`                   // Default value: DateTime.MinValue
@@ -116,7 +116,7 @@ type Invoice struct {
 	CustomerOrgNo         string                `xml:"CustomerOrgNo,omitempty"`          // Default value: “”. Max length 20 characters
 	Currency              Currency              `xml:"Currency,omitempty"`               // Default value: null
 	PaymentMethodId       int                   `xml:"PaymentMethodId,omitempty"`        // Default value: int.MinValue
-	PaymentAmount         float64               `xml:"PaymentAmount,omitempty"`          // Write only property. Used for registering payments. Default value: Decimal.MinValue
+	PaymentAmount         Number               `xml:"PaymentAmount,omitempty"`          // Write only property. Used for registering payments. Default value: Decimal.MinValue
 	ProductionManagerId   int                   `xml:"ProductionManagerId,omitempty"`    // If set, must exist in system. Default value: int.MinValue
 	SalesOpportunityId    int                   `xml:"SalesOpportunityId,omitempty"`     // If set, must exist in system. Default value: int.MinValue
 	TypeOfSaleId          int                   `xml:"TypeOfSaleId,omitempty"`           // Default value: int.MinValue. You can get the values from GetTypeGroupList in the ClientService
@@ -133,12 +133,12 @@ type Invoice struct {
 	InvoiceEmailAddress   string                `xml:"InvoiceEmailAddress,omitempty"`    // Default value: “”. Max length 250 characters
 	AccrualDate           DateTime              `xml:"AccrualDate,omitempty"`            // Default value: DateTime.MinValue. Determines the start date for the accrual period(s)
 	AccrualLength         int                   `xml:"AccrualLength,omitempty"`          // Default value: int.MinValue. Sets the number of accrual months
-	RoundFactor           float64               `xml:"RoundFactor,omitempty"`            // Default value: Decimal.MinValue. May be set to 0.1, 0.5 or 1.0
+	RoundFactor           Number               `xml:"RoundFactor,omitempty"`            // Default value: Decimal.MinValue. May be set to 0.1, 0.5 or 1.0
 	InvoiceTemplateId     Guid                  `xml:"InvoiceTemplateId,omitempty"`      // Default value: 00000000-0000-0000-0000-000000000000
 	VippsNumber           string                `xml:"VippsNumber,omitempty"`            // Deprecated
 	DeliveryMethod        DeliveryMethod        `xml:"DeliveryMethod,omitempty"`         // Default value: null
 	SendToFactoring       bool                  `xml:"SendToFactoring,omitempty"`        // Default value: true
-	Commission            float64               `xml:"Commission,omitempty"`             // Default value: Decimal.MinValue
+	Commission            Number               `xml:"Commission,omitempty"`             // Default value: Decimal.MinValue
 	InvoiceRows           InvoiceRows           `xml:"InvoiceRows>InvoiceRow,omitempty"` // Default value: null
 	APIException          APIException          `xml:"APIException,omitempty"`           // Default value: null
 	UserDefinedDimensions UserDefinedDimensions `xml:"UserDefinedDimensions,omitempty"`  // Dimensions defined by the user
@@ -264,16 +264,16 @@ type InvoiceRow struct {
 	ProductId             int                   `xml:"ProductId,omitempty"`             // Required for Row Type Normal. Must exist in system. Default value: int.MinValue
 	ProductNo             string                `xml:"ProductNo,omitempty"`             // Read only. When creating orders with SaveInvoices you must use ProductId
 	RowId                 int                   `xml:"RowId,omitempty"`                 // Used when editing an existing order. Default value: int.MinValue
-	VatRate               float64               `xml:"VatRate,omitempty"`               // Default value: Decimal.MinValue. Read only
-	Price                 float64               `xml:"Price,omitempty"`                 // Default value: Decimal.MinValue
+	VatRate               Number               `xml:"VatRate,omitempty"`               // Default value: Decimal.MinValue. Read only
+	Price                 Number               `xml:"Price,omitempty"`                 // Default value: Decimal.MinValue
 	Name                  string                `xml:"Name,omitempty"`                  // Default value: “”. Max length 300 characters
-	DiscountRate          float64               `xml:"DiscountRate,omitempty"`          // Default value: Decimal.MinValue
-	Quantity              float64               `xml:"Quantity,omitempty"`              // Default value: Decimal.MinValue
-	QuantityDelivered     float64               `xml:"QuantityDelivered,omitempty"`     // Default value: Decimal.MinValue
-	QuantityOrdered       float64               `xml:"QuantityOrdered,omitempty"`       // Default value: Decimal.MinValue
-	QuantityRest          float64               `xml:"QuantityRest,omitempty"`          // -1. This property is used for creating rest orders
-	Cost                  float64               `xml:"Cost,omitempty"`                  // Default value: Decimal.MinValue
-	InPrice               float64               `xml:"InPrice,omitempty"`               // Default value: Decimal.MinValue
+	DiscountRate          Number               `xml:"DiscountRate,omitempty"`          // Default value: Decimal.MinValue
+	Quantity              Number               `xml:"Quantity,omitempty"`              // Default value: Decimal.MinValue
+	QuantityDelivered     Number               `xml:"QuantityDelivered,omitempty"`     // Default value: Decimal.MinValue
+	QuantityOrdered       Number               `xml:"QuantityOrdered,omitempty"`       // Default value: Decimal.MinValue
+	QuantityRest          Number               `xml:"QuantityRest,omitempty"`          // -1. This property is used for creating rest orders
+	Cost                  Number               `xml:"Cost,omitempty"`                  // Default value: Decimal.MinValue
+	InPrice               Number               `xml:"InPrice,omitempty"`               // Default value: Decimal.MinValue
 	SequenceNumber        int                   `xml:"SequenceNumber,omitempty"`        // Default value: Int16.MinValue
 	Hidden                bool                  `xml:"Hidden,omitempty"`                // Default value: false. Makes the row hidden on the actual invoice statement.
 	Type                  RowType               `xml:"Type,omitempty"`                  // Normal or Text. Default value: Normal. Please note that TextBold is deprecated
@@ -297,7 +297,7 @@ type UserDefinedDimensions []interface{}
 type TaxSettings struct {
 	TaxAccount int     `xml:"TaxAccount,omitempty"` // The account
 	TaxCode    int     `xml:"TaxCode,omitempty"`    // Get this from GetTaxCodeList in the AccountService
-	TaxRate    float64 `xml:"TaxRate,omitempty"`    // The tax rate you wish to set
+	TaxRate    Number `xml:"TaxRate,omitempty"`    // The tax rate you wish to set
 }
 
 type DeliveryMethod struct {
@@ -321,6 +321,6 @@ type TaxCode struct {
 	TaxID     int     `xml:"TaxId"`
 	TaxNo     string  `xml:"TaxNo"`
 	TaxName   string  `xml:"TaxName"`
-	TaxRate   float64 `xml:"TaxRate"`
+	TaxRate   Number `xml:"TaxRate"`
 	AccountNo string  `xml:"AccountNo"`
 }

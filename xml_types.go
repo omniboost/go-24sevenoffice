@@ -3,6 +3,7 @@ package twentyfour
 import (
 	"encoding/json"
 	"encoding/xml"
+	"fmt"
 	"time"
 
 	"github.com/pkg/errors"
@@ -171,4 +172,10 @@ func (b *Bool) UnmarshalJSON(text []byte) (err error) {
 	}
 
 	return errors.New("FML")
+}
+
+type Number float64
+
+func (n Number) MarshalXML(enc *xml.Encoder, start xml.StartElement) error {
+	return enc.EncodeElement(fmt.Sprintf("%.2f", n), start)
 }
