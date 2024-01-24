@@ -54,7 +54,7 @@ type VoucherEntry struct {
 	CurrencyUnit       int     `xml:"web:CurrencyUnit"`
 	DepartmentID       int     `xml:"web:DepartmentId,omitempty"`
 	ProjectID          int     `xml:"web:ProjectId,omitempty"`
-	InvoiceReferenceNo int     `xml:"web:InvoiceReferenceNo,omitempty"`
+	InvoiceReferenceNo string     `xml:"web:InvoiceReferenceNo,omitempty"`
 	InvoiceOCR         string     `xml:"web:InvoiceOcr,omitempty"`
 	Comment            string  `xml:"web:Comment"`
 	LinkId             string  `xml:"web:LinkId,omitempty"`
