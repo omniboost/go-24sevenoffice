@@ -93,8 +93,10 @@ type GetTransactionsRequestBody struct {
 	Xmlns   string   `xml:"xmlns,attr"`
 
 	SearchParams struct {
-		DateStart Date `xml:"DateStart,omitempty"`
-		DateEnd   Date `xml:"DateEnd,omitempty"`
+		DateStart          Date `xml:"DateStart,omitempty"`
+		DateEnd            Date `xml:"DateEnd,omitempty"`
+		TransactionNoStart int  `xml:"TransactionNoStart,omitempty"`
+		TransactionNoEnd   int  `xml:"TransactionNoEnd,omitempty"`
 	} `xml:"searchParams"`
 }
 
@@ -117,8 +119,7 @@ func (r *GetTransactionsRequest) NewResponseBody() *GetTransactionsRequestRespon
 type GetTransactionsRequestResponseBody struct {
 	XMLName xml.Name `xml:"GetTransactionsResponse"`
 
-	GetTransactionsResult struct {
-	} `xml:"GetTransactionsResult"`
+	GetTransactionsResult Transactions `xml:"GetTransactionsResult>Transaction"`
 }
 
 func (r *GetTransactionsRequest) URL() (*url.URL, error) {

@@ -377,3 +377,43 @@ type EmailAddress struct {
 func (e EmailAddress) IsEmpty() bool {
 	return zero.IsZero(e)
 }
+
+type Transactions []Transaction
+
+type Transaction struct {
+	Date              Date       `xml:"Date"`
+	AccountNo         string     `xml:"AccountNo"`
+	Currency          string     `xml:"Currency"`
+	CurrencyRate      Number     `xml:"CurrencyRate"`
+	CurrencyUnit      int        `xml:"CurrencyUnit"`
+	Amount            Number     `xml:"Amount"`
+	StampNo           int        `xml:"StampNo"`
+	Period            int        `xml:"Period"`
+	TransactionTypeID int        `xml:"TransactionTypeId"`
+	Comment           string     `xml:"Comment"`
+	TransactionNo     int        `xml:"TransactionNo"`
+	VatCode           int        `xml:"VatCode"`
+	ID                Guid       `xml:"Id"`
+	InvoiceNo         string     `xml:"InvoiceNo"`
+	SequenceNo        int        `xml:"SequenceNo"`
+	SystemType        string     `xml:"SystemType"`
+	DueDate           Date       `xml:"DueDate"`
+	Dimensions        Dimensions `xml:"Dimensions>Dimension"`
+	RegistrationDate  Date       `xml:"RegistrationDate"`
+	DateChanged       Date       `xml:"DateChanged"`
+	Hidden            bool       `xml:"Hidden"`
+	Open              bool       `xml:"Open"`
+	OCR               string     `xml:"OCR"`
+	HasVatDividend    bool       `xml:"HasVatDividend"`
+	PeriodDate        Date       `xml:"PeriodDate"`
+}
+
+type Dimensions []Dimension
+
+type Dimension struct {
+	Type    string `xml:"Type"`
+	Name    string `xml:"Name"`
+	Value   string `xml:"Value"`
+	Percent Number `xml:"Percent"`
+	TypeID  int    `xml:"TypeId"`
+}
